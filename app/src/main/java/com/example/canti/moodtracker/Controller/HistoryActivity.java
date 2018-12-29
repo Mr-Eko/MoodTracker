@@ -60,6 +60,9 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Init layouts by ID and add them in an array
+     */
     private void initLayouts() {
         mRelativeLayout1WA = findViewById(R.id.history_layout_one_week_ago);
         mRelativeLayout6DA = findViewById(R.id.history_layout_six_days_ago);
@@ -79,6 +82,9 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Init images by ID and add them in an array
+     */
     private void initImages() {
         mImageView1WA = findViewById(R.id.comment_OWA);
         mImageView6DA = findViewById(R.id.comment_btn_6DA);
@@ -98,6 +104,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Get the backgrounds color previously saved in historicList and set them to the layouts depending on the size of historicList
+     * Set the layouts to be visible depending on the size of historicList
+     */
     private void setLayoutsFromMood() {
 
         for (int i = 0; i < historicList.size(); i++) {
@@ -107,12 +117,20 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get width
+     * @return The absolute height of the available display size in pixels
+     */
     private int getWidthScreen() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.widthPixels;
 
     }
+
+    /**
+     * Set width of the layouts depending of the size of historicList
+     */
     private void setWidth() {
 
         for (int i = 0; i < historicList.size(); i++) {
@@ -124,7 +142,11 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Set width of the layouts depending on the mood position
+     * @param position position of the mood
+     * @param params params of the layouts
+     */
     private void WidthScreen(int position, ViewGroup.LayoutParams params) {
 
         int widthScreen = getWidthScreen();
@@ -150,7 +172,10 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Get the comments previously saved in historicList
+     * Display the comments by clicking on the comment imageView
+     */
     private void displayCommentary() {
 
 

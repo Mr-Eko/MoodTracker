@@ -68,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
         configureHistoryBtn();
         changeMood();
         setScreenFromMood(mPosition);
-        setAlarmMidnight(this);
-        removeMood();
+        setAlarmMidnight();
 
 
         mGestureDetector = new GestureDetector(this, new GestureListener());
@@ -83,9 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Init buttons by ID
+     */
 
-
-    //Initialisation boutons par id
     private void initButtons() {
         mCommentButton = findViewById(R.id.comment_btn);
         mHistoryButton = findViewById(R.id.history_btn);
@@ -93,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         mBackgroundLayout = findViewById(R.id.main_layout);
     }
 
-    //Initialisations humeurs via la classe mood et ajout dans un Array ListMood
+    /**
+     * Init moods by Mood class and add them in an array
+     */
     private void initMoods() {
         Mood superHappyMood = new Mood(R.drawable.smiley_super_happy, R.color.banana_yellow, 4,R.raw.test);
         Mood happyMood = new Mood(R.drawable.smiley_happy, R.color.light_sage, 3,R.raw.test);
@@ -109,14 +111,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Méthode permettant de récuperer les images et les background via listMood et de les placer
+    /**
+     * Get images and backgrounds by listMood
+     * @param position put the rights images and backgrounds depending of the position in the array ListMood
+     */
+
     private void setScreenFromMood(int position) {
         mSmiley.setImageResource(listMood.get(position).getSmileyResource());
         mBackgroundLayout.setBackgroundColor(ContextCompat.getColor(this, listMood.get(position).getBackgroundColor()));
         mPosition = position;
     }
 
-    //Méthode permettant de restreindre le swipe entre la premiere et la derniere humeur
+    /**
+     * Restrain moods between the first one and the last one
+     */
     private void changeMood() {
 
         if (mPosition >= listMood.size()) {
@@ -127,7 +135,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Configuration du bouton de commentaire
+    /**
+     * Configure the comment button and save the comment in preferences
+     */
+
     private void configureCommentBtn() {
         mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +170,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //Configuration du bouton renvoyant sur HistoryActivity
+    /**
+     * Configure the history button to intent HistoryActivity
+     */
+
     private void configureHistoryBtn(){
         mHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,45 +184,42 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setAlarmMidnight(Context context) {
+    /**
+     * Execute code contain in BroadcastReceiver at 23h 59min 59sec
+     */
+    private void setAlarmMidnight() {
 
-            Calendar calendar = Calendar.getInstance();
-            int currentDay = calendar.get(calendar.DAY_OF_MONTH);
-            SharedPreferences settings = getSharedPreferences("PREFS", 0);
-            int lastDay = settings.getInt("day",0);
+        //CREATION OF A CALENDAR to get time in millis and pass it to the AlarmManager to set
+        //the time when the alarm has to start working (same day the app runs for the first time
+        //at midnight).
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.MINUTE, 53);
+        calendar.set(Calendar.SECOND, 59);
 
-        if (lastDay != currentDay){
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("day", currentDay);
-            editor.commit();
+        //DECLARATION OF the AlarmManager and
+        // the Intent and PendingIntent necessary for the AlarmManager.setRepeating method.
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, BroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            if (SharedPreferencesUtils.containsMood(context)) {
-                historyListMood.add(new Mood(SharedPreferencesUtils.getComment(this), ContextCompat.getColor(this, listMood.get(SharedPreferencesUtils.getMoodPosition(this)).getBackgroundColor()), SharedPreferencesUtils.getMoodPosition(context)));
-            } else {
-                historyListMood.add(new Mood("Humeur par défaut enregistrée", R.color.light_sage, 3));
-            }
+        //timeInMillis: specifies when we have to start the alarm (calendar gives this information).
+        //INTERVAL_DAY: makes the alarm be repeated every day.
+        if (alarmManager != null) {
+            alarmManager.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent);
         }
 
-            SharedPreferencesUtils.saveArrayList(this, historyListMood);
-            resetMood(context);
-
             }
 
 
-    public void resetMood(Context context) {
-        SharedPreferencesUtils.removeMood(context, SharedPreferencesUtils.MY_FILE, SharedPreferencesUtils.KEY_MOOD_POSITION);
-        SharedPreferencesUtils.removeMood(context, SharedPreferencesUtils.MY_FILE, SharedPreferencesUtils.KEY_COMMENT);
-    }
-
-    public void removeMood() {
-        if (historyListMood.size() == 8) {
-            historyListMood.remove(0);
-        }
-    }
-
-
-
-    //Class GestureListener permettant de recuperer l'action de l'utilisateur
+    /**
+     * Class GestureListener who permit to change the mood position depending on the swipe action of the user
+     */
     public final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private static final int SWIPE_THRESHOLD = 20;
@@ -237,14 +248,14 @@ public class MainActivity extends AppCompatActivity {
             return result;
         }
 
-        public void onSwipeTop() {
+        private void onSwipeTop() {
             --mPosition;
             setScreenFromMood(mPosition);
             changeMood();
 
         }
 
-        public void onSwipeBottom() {
+        private void onSwipeBottom() {
             ++mPosition;
             setScreenFromMood(mPosition);
             changeMood();
@@ -252,7 +263,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Save mood position when the app close
+     */
 
     @Override
     protected void onStop() {
