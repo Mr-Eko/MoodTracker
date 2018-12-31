@@ -3,6 +3,7 @@ package com.example.canti.moodtracker.Model;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.example.canti.moodtracker.R;
 import com.example.canti.moodtracker.Utils.SharedPreferencesUtils;
@@ -23,6 +24,9 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        Toast toast = Toast.makeText(context,"onReceive 1",Toast.LENGTH_LONG);
+        toast.show();
+
 
         if (SharedPreferencesUtils.containsMood(context)) {
             historyListMood.add(new Mood(SharedPreferencesUtils.getComment(context), ContextCompat.getColor(context, listMood.get(SharedPreferencesUtils.getMoodPosition(context)).getBackgroundColor()), SharedPreferencesUtils.getMoodPosition(context)));
@@ -33,6 +37,9 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
         SharedPreferencesUtils.saveArrayList(context, historyListMood);
         resetMood(context);
         removeMood();
+
+       Toast toast1 = Toast.makeText(context,"onReceive 2",Toast.LENGTH_LONG);
+       toast1.show();
 
     }
 
