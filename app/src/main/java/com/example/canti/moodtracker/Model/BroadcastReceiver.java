@@ -14,7 +14,7 @@ import static com.example.canti.moodtracker.Controller.MainActivity.listMood;
 
 
 public class BroadcastReceiver extends android.content.BroadcastReceiver {
-    public ArrayList<Mood> historyListMood;
+    public ArrayList<Mood> historyListMood = new ArrayList<>();
 
     /**
      * When this method is called, add a new mood in an array historyListMood
@@ -27,11 +27,10 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
         Toast toast = Toast.makeText(context,"onReceive 1",Toast.LENGTH_LONG);
         toast.show();
 
-
         if (SharedPreferencesUtils.containsMood(context)) {
             historyListMood.add(new Mood(SharedPreferencesUtils.getComment(context), ContextCompat.getColor(context, listMood.get(SharedPreferencesUtils.getMoodPosition(context)).getBackgroundColor()), SharedPreferencesUtils.getMoodPosition(context)));
         } else {
-            historyListMood.add(new Mood("Humeur par défaut enregistrée", R.color.light_sage, 3));
+            historyListMood.add(new Mood("", R.color.light_sage, 3));
         }
 
         SharedPreferencesUtils.saveArrayList(context, historyListMood);

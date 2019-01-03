@@ -38,7 +38,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ic_comment_black_48px"/>
+                android:background="@drawable/ic_comment_black_48px"
+                android:visibility="invisible"/>
 
         </RelativeLayout>
 
@@ -65,7 +66,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ic_comment_black_48px"/>
+                android:background="@drawable/ic_comment_black_48px"
+                android:visibility="invisible"/>
 
         </RelativeLayout>
 
@@ -92,7 +94,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ic_comment_black_48px"/>
+                android:background="@drawable/ic_comment_black_48px"
+                android:visibility="invisible"/>
 
         </RelativeLayout>
 
@@ -119,7 +122,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ic_comment_black_48px"/>
+                android:background="@drawable/ic_comment_black_48px"
+                android:visibility="invisible"/>
 
         </RelativeLayout>
 
@@ -146,7 +150,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ic_comment_black_48px"/>
+                android:background="@drawable/ic_comment_black_48px"
+                android:visibility="invisible"/>
 
         </RelativeLayout>
 
@@ -173,7 +178,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ic_comment_black_48px"/>
+                android:background="@drawable/ic_comment_black_48px"
+                android:visibility="invisible"/>
 
         </RelativeLayout>
 
@@ -202,7 +208,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/ic_comment_black_48px"/>
+                android:background="@drawable/ic_comment_black_48px"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
     </LinearLayout>

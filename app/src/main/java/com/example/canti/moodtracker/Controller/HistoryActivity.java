@@ -112,7 +112,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         for (int i = 0; i < historicList.size(); i++) {
             RelativeLayout layout = layoutsList.get(i);
-            layout.setBackgroundColor(ContextCompat.getColor(this, historicList.get(i).backgroundColor));
+            //layout.setBackgroundColor(ContextCompat.getColor(this, historicList.get(i).getBackgroundColor()));
             layout.setVisibility(View.VISIBLE);
         }
     }
@@ -184,14 +184,16 @@ public class HistoryActivity extends AppCompatActivity {
 
             comment = historicList.get(i).comment;
 
-            commentView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast toast = Toast.makeText(getApplicationContext(), comment, Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            });
-
+            if (comment.isEmpty() == false ){
+                commentView.setVisibility(View.VISIBLE);
+                commentView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast toast = Toast.makeText(getApplicationContext(), comment, Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
+            }
         }
 
     }

@@ -22,6 +22,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Controller.HistoryActivity"></activity>
+        <receiver
+            android:name=".Model.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
     </application>
+
 
 </manifest>

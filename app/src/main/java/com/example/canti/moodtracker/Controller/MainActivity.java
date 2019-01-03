@@ -6,20 +6,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.canti.moodtracker.Model.BroadcastReceiver;
@@ -30,7 +27,6 @@ import com.example.canti.moodtracker.Utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,16 +35,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mHistoryButton;
     private ImageView mSmiley;
 
-    public MediaPlayer mediaPlayer;
-
     public int mPosition;
 
-    private LinearLayout mBackgroundLayout;
+    private RelativeLayout mBackgroundLayout;
 
     private GestureDetector mGestureDetector;
 
     public static ArrayList<Mood> listMood = new ArrayList<>();
-    public  ArrayList<Mood> historyListMood = new ArrayList<>();
 
     //Erreur Lint ?
 
@@ -71,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         configureHistoryBtn();
         changeMood();
         setScreenFromMood(mPosition);
-        setAlarm2();
+        setAlarmMidnight();
 
 
         mGestureDetector = new GestureDetector(this, new GestureListener());
@@ -100,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
      * Init moods by Mood class and add them in an array
      */
     private void initMoods() {
-        Mood superHappyMood = new Mood(R.drawable.smiley_super_happy, R.color.banana_yellow, 4,R.raw.test);
-        Mood happyMood = new Mood(R.drawable.smiley_happy, R.color.light_sage, 3,R.raw.test);
-        Mood normalMood = new Mood(R.drawable.smiley_normal, R.color.cornflower_blue_65, 2,R.raw.test);
-        Mood disappointedMood = new Mood(R.drawable.smiley_disappointed, R.color.warm_grey, 1,R.raw.test);
-        Mood sadMood = new Mood(R.drawable.smiley_sad, R.color.faded_red, 0,R.raw.test);
+        Mood superHappyMood = new Mood(R.drawable.smiley_super_happy, R.color.banana_yellow, 4,R.raw.superhappy);
+        Mood happyMood = new Mood(R.drawable.smiley_happy, R.color.light_sage, 3,R.raw.happy);
+        Mood normalMood = new Mood(R.drawable.smiley_normal, R.color.cornflower_blue_65, 2,R.raw.neutre);
+        Mood disappointedMood = new Mood(R.drawable.smiley_disappointed, R.color.warm_grey, 1,R.raw.disappointed);
+        Mood sadMood = new Mood(R.drawable.smiley_sad, R.color.faded_red, 0,R.raw.sad);
 
         listMood.add(sadMood);
         listMood.add(disappointedMood);
@@ -122,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
     private void setScreenFromMood(int position) {
         mSmiley.setImageResource(listMood.get(position).getSmileyResource());
         mBackgroundLayout.setBackgroundColor(ContextCompat.getColor(this, listMood.get(position).getBackgroundColor()));
+        MediaPlayer sound = MediaPlayer.create(MainActivity.this,listMood.get(position).getSound());
+        sound.start();
         mPosition = position;
     }
 
@@ -181,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
         mHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent historyactivity = new Intent(MainActivity.this, HistoryActivity.class);
-                startActivity(historyactivity);
+                Intent historyActivity = new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(historyActivity);
             }
         });
     }
@@ -197,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
         //at midnight).
         Calendar calendar = Calendar.getInstance();
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 54);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
 
         //DECLARATION OF the AlarmManager and
@@ -210,8 +205,6 @@ public class MainActivity extends AppCompatActivity {
         //timeInMillis: specifies when we have to start the alarm (calendar gives this information).
         //INTERVAL_DAY: makes the alarm be repeated every day.
         if (alarmManager != null) {
-            Toast toast = Toast.makeText(this,"MàJ alarm",Toast.LENGTH_LONG);
-            toast.show();
 
             alarmManager.setInexactRepeating(
                     AlarmManager.RTC_WAKEUP,
@@ -221,42 +214,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
             }
-
-    private void setAlarm2() {
-
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Date dat = new Date();
-        Calendar calendar = Calendar.getInstance();
-        Calendar cal_now = Calendar.getInstance();
-        cal_now.setTime(dat);
-
-        calendar.setTime(dat);
-        calendar.set(Calendar.HOUR_OF_DAY,15);
-        calendar.set(Calendar.MINUTE,9);
-        calendar.set(Calendar.SECOND, 59);
-
-        if(calendar.before(cal_now)){
-            calendar.add(Calendar.DATE,1);
-        }
-
-        Intent myIntent = new Intent(MainActivity.this, BroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent, 0);
-
-        if (Build.VERSION.SDK_INT > 19) {
-            if (manager != null) {
-                manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + 300, pendingIntent);
-            }
-            Log.i("Alarm", "startAlarm: 1 ");
-        }
-
-        else {
-            if (manager != null) {
-                manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + 300, pendingIntent);
-            }
-            Log.i("Alarm2", "startAlarm: 2");
-        }
-    }
-
 
 
     /**
