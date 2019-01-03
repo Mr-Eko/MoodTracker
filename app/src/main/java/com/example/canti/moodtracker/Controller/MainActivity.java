@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GestureDetector mGestureDetector;
 
-    public static ArrayList<Mood> listMood = new ArrayList<>();
+    public ArrayList<Mood> listMood = new ArrayList<>();
 
     //Erreur Lint ?
 
@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         mBackgroundLayout.setBackgroundColor(ContextCompat.getColor(this, listMood.get(position).getBackgroundColor()));
         MediaPlayer sound = MediaPlayer.create(MainActivity.this,listMood.get(position).getSound());
         sound.start();
-        mPosition = position;
     }
 
     /**
@@ -150,9 +149,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferencesUtils.saveComment(MainActivity.this, comment.getText().toString());
                         if (SharedPreferencesUtils.containsComment(getBaseContext())) {
-                            Toast.makeText(MainActivity.this, "Nouveau Commentaire enregistré !", Toast.LENGTH_SHORT).show();
-                        } else {
                             Toast.makeText(MainActivity.this, "Commentaire enregistré !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Nouveau Commentaire enregistré !", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -253,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
             changeMood();
             SharedPreferencesUtils.saveMoodPosition(MainActivity.this, mPosition);
 
+
         }
 
         private void onSwipeBottom() {
@@ -260,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
             setScreenFromMood(mPosition);
             changeMood();
             SharedPreferencesUtils.saveMoodPosition(MainActivity.this, mPosition);
+
 
         }
     }
@@ -273,12 +274,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         SharedPreferencesUtils.saveMoodPosition(MainActivity.this, mPosition);
 
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         SharedPreferencesUtils.saveMoodPosition(MainActivity.this, mPosition);
+
 
     }
 }

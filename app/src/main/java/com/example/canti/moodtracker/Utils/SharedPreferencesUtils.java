@@ -11,14 +11,13 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
-
-
 public class SharedPreferencesUtils {
 
     public static final String MY_FILE = "MySharedPreference.xml";
     public static final String KEY_COMMENT = "KEY_COMMENT";
     public static final String KEY_MOOD_POSITION = "KEY_MOOD_POSITION";
-    public static final String KEY_LIST = "KEY_LIST";
+    private static final String KEY_LIST = "KEY_LIST";
+
 
     public static void saveComment(Context context, String message) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MY_FILE, Context.MODE_PRIVATE);

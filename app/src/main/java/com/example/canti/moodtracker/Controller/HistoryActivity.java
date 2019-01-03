@@ -38,6 +38,7 @@ public class HistoryActivity extends AppCompatActivity {
     public ArrayList<Mood> historicList = new ArrayList<>();
     public ArrayList<RelativeLayout> layoutsList = new ArrayList<>();
     public ArrayList<ImageView> imageList = new ArrayList<>();
+    public ArrayList<Mood> historyListMood = new ArrayList<>();
 
 
     public String comment;
@@ -49,6 +50,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         initImages();
         initLayouts();
+        initHistoryMoods();
 
         if (SharedPreferencesUtils.containsArrayList(this)) {
             historicList = SharedPreferencesUtils.getArrayList(this);
@@ -104,6 +106,22 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    private void initHistoryMoods() {
+
+        Mood superHappyMood = new Mood(R.color.banana_yellow);
+        Mood happyMood = new Mood(R.color.light_sage);
+        Mood normalMood = new Mood(R.color.cornflower_blue_65);
+        Mood disappointedMood = new Mood(R.color.warm_grey);
+        Mood sadMood = new Mood(R.color.faded_red);
+
+        historyListMood.add(sadMood);
+        historyListMood.add(disappointedMood);
+        historyListMood.add(normalMood);
+        historyListMood.add(happyMood);
+        historyListMood.add(superHappyMood);
+
+    }
+
     /**
      * Get the backgrounds color previously saved in historicList and set them to the layouts depending on the size of historicList
      * Set the layouts to be visible depending on the size of historicList
@@ -112,7 +130,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         for (int i = 0; i < historicList.size(); i++) {
             RelativeLayout layout = layoutsList.get(i);
-            //layout.setBackgroundColor(ContextCompat.getColor(this, historicList.get(i).getBackgroundColor()));
+            int mPosition = historicList.get(i).getPosition();
+            layout.setBackgroundColor(ContextCompat.getColor(this, historyListMood.get(mPosition).getBackgroundColor()));
             layout.setVisibility(View.VISIBLE);
         }
     }
@@ -175,6 +194,7 @@ public class HistoryActivity extends AppCompatActivity {
     /**
      * Get the comments previously saved in historicList
      * Display the comments by clicking on the comment imageView
+     * If there is no comment, leave the comment button invisible
      */
     private void displayCommentary() {
 
@@ -184,7 +204,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             comment = historicList.get(i).comment;
 
-            if (comment.isEmpty() == false ){
+            if (!comment.isEmpty() ){
                 commentView.setVisibility(View.VISIBLE);
                 commentView.setOnClickListener(new View.OnClickListener() {
                     @Override

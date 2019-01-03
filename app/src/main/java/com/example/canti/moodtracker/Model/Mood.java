@@ -4,9 +4,9 @@ package com.example.canti.moodtracker.Model;
 public class Mood {
 
     private int smileyResource;
-    public int backgroundColor;
+    private int backgroundColor;
     public int position;
-    public int sound;
+    private int sound;
     public String comment;
 
 
@@ -17,18 +17,26 @@ public class Mood {
         this.sound = sound;
     }
 
-    public Mood(String comment,int backgroundColor, int position) {
+    protected Mood (String comment, int position) {
 
         this.comment = comment;
-        this.backgroundColor = backgroundColor;
         this.position = position;
     }
+
+    public Mood (int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
     public int getSmileyResource() {
         return smileyResource;
     }
 
     public int getBackgroundColor() {
         return backgroundColor;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public int getSound() {
