@@ -24,12 +24,11 @@ import com.example.canti.moodtracker.Model.Mood;
 import com.example.canti.moodtracker.R;
 import com.example.canti.moodtracker.Utils.SharedPreferencesUtils;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
 
     private ImageView mCommentButton;
     private ImageView mHistoryButton;
@@ -42,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private GestureDetector mGestureDetector;
 
     public ArrayList<Mood> listMood = new ArrayList<>();
-
-    //Erreur Lint ?
 
     @SuppressLint("ClickableViewAccessibility")
 
@@ -66,15 +63,8 @@ public class MainActivity extends AppCompatActivity {
         setScreenFromMood(mPosition);
         setAlarmMidnight();
 
-
         mGestureDetector = new GestureDetector(this, new GestureListener());
-        mBackgroundLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return mGestureDetector.onTouchEvent(motionEvent);
-            }
-        });
-
+        mBackgroundLayout.setOnTouchListener(this);
 
     }
 
@@ -205,14 +195,15 @@ public class MainActivity extends AppCompatActivity {
         //INTERVAL_DAY: makes the alarm be repeated every day.
         if (alarmManager != null) {
 
-            alarmManager.setInexactRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY,
-                    pendingIntent);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
             }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
+    }
 
 
     /**
@@ -250,7 +241,6 @@ public class MainActivity extends AppCompatActivity {
             --mPosition;
             setScreenFromMood(mPosition);
             changeMood();
-            SharedPreferencesUtils.saveMoodPosition(MainActivity.this, mPosition);
 
 
         }
@@ -259,10 +249,10 @@ public class MainActivity extends AppCompatActivity {
             ++mPosition;
             setScreenFromMood(mPosition);
             changeMood();
-            SharedPreferencesUtils.saveMoodPosition(MainActivity.this, mPosition);
 
 
         }
+
     }
 
     /**

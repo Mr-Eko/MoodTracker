@@ -21,8 +21,8 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast toast = Toast.makeText(context,"onReceive 1",Toast.LENGTH_LONG);
-        toast.show();
+        //Toast toast = Toast.makeText(context,"onReceive 1",Toast.LENGTH_LONG);
+        //toast.show();
 
         if (SharedPreferencesUtils.containsMood(context)) {
             historyListMood.add(new Mood(SharedPreferencesUtils.getComment(context), SharedPreferencesUtils.getMoodPosition(context)));
@@ -34,8 +34,8 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
         resetMood(context);
         removeMood();
 
-       Toast toast1 = Toast.makeText(context,"onReceive 2",Toast.LENGTH_LONG);
-       toast1.show();
+       //Toast toast1 = Toast.makeText(context,"onReceive 2",Toast.LENGTH_LONG);
+       //toast1.show();
 
     }
 
