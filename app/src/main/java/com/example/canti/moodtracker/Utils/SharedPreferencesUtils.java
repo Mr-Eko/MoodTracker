@@ -71,12 +71,16 @@ public class SharedPreferencesUtils {
     }
 
     public static ArrayList<Mood> getArrayList(Context context) {
+        ArrayList<Mood> historyListM;
         SharedPreferences sharedPreferences = context.getSharedPreferences(MY_FILE, Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString(KEY_LIST, null);
+        String json = sharedPreferences.getString(KEY_LIST, "");
         Type type = new TypeToken<ArrayList<Mood>>() {
         }.getType();
-        ArrayList<Mood> historyListM = gson.fromJson(json, type);
+        if (json.equals("")) {
+            return null;
+        }
+        historyListM = gson.fromJson(json, type);
         return historyListM;
     }
 

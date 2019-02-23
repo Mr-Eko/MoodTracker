@@ -24,10 +24,11 @@
             >
 
             <TextView
+                android:id="@+id/OWA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Il y a une semaine"
+                android:text=""
                 android:textStyle="bold"/>
 
             <ImageView
@@ -52,10 +53,11 @@
             >
 
             <TextView
+                android:id="@+id/SWA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Il y a six jour"
+                android:text=""
                 android:textStyle="bold"/>
 
             <ImageView
@@ -80,10 +82,11 @@
             >
 
             <TextView
+                android:id="@+id/FIDA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Il y a 5 jours"
+                android:text=""
                 android:textStyle="bold"/>
 
             <ImageView
@@ -108,10 +111,11 @@
             >
 
             <TextView
+                android:id="@+id/FDA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Il y a quatre jours"
+                android:text=""
                 android:textStyle="bold"/>
 
             <ImageView
@@ -136,10 +140,11 @@
             >
 
             <TextView
+                android:id="@+id/TRDA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Il y a trois jours"
+                android:text=""
                 android:textStyle="bold"/>
 
             <ImageView
@@ -164,10 +169,11 @@
             >
 
             <TextView
+                android:id="@+id/TDA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Avant-hier"
+                android:text=""
                 android:textStyle="bold"/>
 
             <ImageView
@@ -192,10 +198,11 @@
             >
 
             <TextView
+                android:id="@+id/HIER"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Hier"
+                android:text=""
 
 
                 android:textStyle="bold"/>

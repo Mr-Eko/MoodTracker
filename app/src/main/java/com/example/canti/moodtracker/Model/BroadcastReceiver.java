@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.example.canti.moodtracker.R;
+
 import com.example.canti.moodtracker.Utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 
 
 public class BroadcastReceiver extends android.content.BroadcastReceiver {
-    public ArrayList<Mood> historyListMood = new ArrayList<>();
+    public ArrayList<Mood> historyListMood;
 
     /**
      * When this method is called, add a new mood in an array historyListMood
@@ -21,21 +21,26 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Toast toast = Toast.makeText(context,"onReceive 1",Toast.LENGTH_LONG);
-        //toast.show();
-
-        if (SharedPreferencesUtils.containsMood(context)) {
-            historyListMood.add(new Mood(SharedPreferencesUtils.getComment(context), SharedPreferencesUtils.getMoodPosition(context)));
-        } else {
-            historyListMood.add(new Mood("", 3));
+        Toast toast = Toast.makeText(context,"onReceive 1",Toast.LENGTH_LONG);
+        toast.show();
+        historyListMood = SharedPreferencesUtils.getArrayList(context);
+        if (historyListMood == null) {
+            historyListMood = new ArrayList<>();
         }
+
+            if (SharedPreferencesUtils.containsMood(context)) {
+                historyListMood.add(new Mood(SharedPreferencesUtils.getComment(context), SharedPreferencesUtils.getMoodPosition(context)));
+            } else {
+                historyListMood.add(new Mood("", 3));
+            }
+
 
         SharedPreferencesUtils.saveArrayList(context, historyListMood);
         resetMood(context);
         removeMood();
 
-       //Toast toast1 = Toast.makeText(context,"onReceive 2",Toast.LENGTH_LONG);
-       //toast1.show();
+       Toast toast1 = Toast.makeText(context,"onReceive 2",Toast.LENGTH_LONG);
+       toast1.show();
 
     }
 

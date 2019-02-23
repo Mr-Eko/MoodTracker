@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.canti.moodtracker.Model.Mood;
 import com.example.canti.moodtracker.R;
 import com.example.canti.moodtracker.Utils.SharedPreferencesUtils;
+
 
 import java.util.ArrayList;
 
@@ -34,11 +36,19 @@ public class HistoryActivity extends AppCompatActivity {
     private ImageView mImageView2DA;
     private ImageView mImageViewY;
 
+    private TextView owa;
+    private TextView sda;
+    private TextView fida;
+    private TextView fda;
+    private TextView trda;
+    private TextView tda;
+    private TextView hier;
 
     public ArrayList<Mood> historicList = new ArrayList<>();
     public ArrayList<RelativeLayout> layoutsList = new ArrayList<>();
     public ArrayList<ImageView> imageList = new ArrayList<>();
     public ArrayList<Mood> historyListMood = new ArrayList<>();
+    public ArrayList<TextView> dateList = new ArrayList<>();
 
 
     public String comment;
@@ -51,6 +61,7 @@ public class HistoryActivity extends AppCompatActivity {
         initImages();
         initLayouts();
         initHistoryMoods();
+        initDate();
 
         if (SharedPreferencesUtils.containsArrayList(this)) {
             historicList = SharedPreferencesUtils.getArrayList(this);
@@ -122,6 +133,26 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    private void initDate(){
+
+        owa = findViewById(R.id.OWA);
+        sda = findViewById(R.id.SWA);
+        fida = findViewById(R.id.FIDA);
+        fda = findViewById(R.id.FDA);
+        trda = findViewById(R.id.TRDA);
+        tda = findViewById(R.id.TDA);
+        hier = findViewById(R.id.HIER);
+
+        dateList.add(hier);
+        dateList.add(tda);
+        dateList.add(trda);
+        dateList.add(fda);
+        dateList.add(fida);
+        dateList.add(sda);
+        dateList.add(owa);
+
+    }
+
     /**
      * Get the backgrounds color previously saved in historicList and set them to the layouts depending on the size of historicList
      * Set the layouts to be visible depending on the size of historicList
@@ -133,7 +164,60 @@ public class HistoryActivity extends AppCompatActivity {
             int mPosition = historicList.get(i).getPosition();
             layout.setBackgroundColor(ContextCompat.getColor(this, historyListMood.get(mPosition).getBackgroundColor()));
             layout.setVisibility(View.VISIBLE);
+
+            if (i == 0) {
+                dateList.get(0).setText("Hier");
+            }
+            if (i == 1) {
+                dateList.get(0).setText("Avant - hier");
+                dateList.get(1).setText("Hier");
+            }
+
+            if (i == 2) {
+                dateList.get(0).setText("Il y a trois jours");
+                dateList.get(1).setText("Avant - hier");
+                dateList.get(2).setText("Hier");
+
+            }
+
+            if (i == 3) {
+                dateList.get(0).setText("Il y a quatre jours");
+                dateList.get(1).setText("Il y a trois jours");
+                dateList.get(2).setText("Avant - hier");
+                dateList.get(3).setText("Hier");
+            }
+
+            if (i == 4) {
+                dateList.get(0).setText("Il y a cinq jours");
+                dateList.get(1).setText("Il y a quatre jours");
+                dateList.get(2).setText("Il y a trois jours");
+                dateList.get(3).setText("Avant - hier");
+                dateList.get(4).setText("Hier");
+            }
+
+            if (i == 5) {
+                dateList.get(0).setText("Il y a six jours");
+                dateList.get(1).setText("Il y a cinq jours");
+                dateList.get(2).setText("Il y a quatre jours");
+                dateList.get(3).setText("Il y a trois jours");
+                dateList.get(4).setText("Avant - hier");
+                dateList.get(5).setText("Hier");
+            }
+
+            if (i == 6){
+                dateList.get(0).setText("Il y a une semaine");
+                dateList.get(1).setText("Il y a six jours");
+                dateList.get(2).setText("Il y a cinq jours");
+                dateList.get(3).setText("Il y a quatre jours");
+                dateList.get(4).setText("Il y a trois jours");
+                dateList.get(5).setText("Avant - hier");
+                dateList.get(6).setText("Hier");
+            }
+
+
         }
+
+
     }
 
     /**
