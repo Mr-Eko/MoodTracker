@@ -177,6 +177,11 @@ public class HistoryActivity extends AppCompatActivity {
         for (int i = 0; i < historicList.size(); i++) {
             RelativeLayout layout = layoutsList.get(i);
             int mPosition = historicList.get(i).getPosition();
+            if (mPosition > 4) {
+                mPosition = 4;
+            } else if (mPosition < 0) {
+                mPosition = 0;
+            }
             layout.setBackgroundColor(ContextCompat.getColor(this, historyListMood.get(mPosition).getBackgroundColor()));
             layout.setVisibility(View.VISIBLE);
 
@@ -266,6 +271,11 @@ public class HistoryActivity extends AppCompatActivity {
 
             ViewGroup.LayoutParams params = layout.getLayoutParams();
             int position = historicList.get(i).position;
+            if (position > 4) {
+                position = 4;
+            } else if (position < 0) {
+                position = 0;
+            }
             WidthScreen(position, params);
         }
     }

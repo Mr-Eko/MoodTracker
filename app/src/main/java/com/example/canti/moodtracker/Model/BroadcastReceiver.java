@@ -59,7 +59,7 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
      * When the size of the array equals 8 remove the mood of index 0
      */
     public void removeMood() {
-        if (historyListMood.size() == 8) {
+        if (historyListMood.size() > 6) {
             historyListMood.remove(0);
         }
     }
