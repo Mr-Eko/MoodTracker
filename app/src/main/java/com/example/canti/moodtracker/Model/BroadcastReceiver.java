@@ -23,6 +23,7 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Toast toast = Toast.makeText(context,"onReceive 1",Toast.LENGTH_LONG);
         toast.show();
+
         historyListMood = SharedPreferencesUtils.getArrayList(context);
         if (historyListMood == null) {
             historyListMood = new ArrayList<>();
@@ -31,7 +32,7 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
             if (SharedPreferencesUtils.containsMood(context)) {
                 historyListMood.add(new Mood(SharedPreferencesUtils.getComment(context), SharedPreferencesUtils.getMoodPosition(context)));
             } else {
-                historyListMood.add(new Mood("", 3));
+                historyListMood.add(new Mood("Humeur par défaut", 3));
             }
 
 

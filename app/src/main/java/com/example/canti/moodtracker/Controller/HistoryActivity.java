@@ -2,6 +2,7 @@ package com.example.canti.moodtracker.Controller;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -63,14 +64,20 @@ public class HistoryActivity extends AppCompatActivity {
         initHistoryMoods();
         initDate();
 
+
         if (SharedPreferencesUtils.containsArrayList(this)) {
             historicList = SharedPreferencesUtils.getArrayList(this);
             setLayoutsFromMood();
             displayCommentary();
             setWidth();
+            setDate();
+        } else {
+            Toast toast = Toast.makeText(this, "Vous n'avez pas d'historique enregistré !", Toast.LENGTH_LONG);
+            toast.show();
         }
-
     }
+
+
 
 
     /**
@@ -117,6 +124,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Init moods by ID and add them in an array
+     */
+
     private void initHistoryMoods() {
 
         Mood superHappyMood = new Mood(R.color.banana_yellow);
@@ -132,6 +143,10 @@ public class HistoryActivity extends AppCompatActivity {
         historyListMood.add(superHappyMood);
 
     }
+
+    /**
+     * Init dates by ID and add them in an array
+     */
 
     private void initDate(){
 
@@ -165,60 +180,70 @@ public class HistoryActivity extends AppCompatActivity {
             layout.setBackgroundColor(ContextCompat.getColor(this, historyListMood.get(mPosition).getBackgroundColor()));
             layout.setVisibility(View.VISIBLE);
 
-            if (i == 0) {
-                dateList.get(0).setText("Hier");
-            }
-            if (i == 1) {
-                dateList.get(0).setText("Avant - hier");
-                dateList.get(1).setText("Hier");
-            }
-
-            if (i == 2) {
-                dateList.get(0).setText("Il y a trois jours");
-                dateList.get(1).setText("Avant - hier");
-                dateList.get(2).setText("Hier");
-
-            }
-
-            if (i == 3) {
-                dateList.get(0).setText("Il y a quatre jours");
-                dateList.get(1).setText("Il y a trois jours");
-                dateList.get(2).setText("Avant - hier");
-                dateList.get(3).setText("Hier");
-            }
-
-            if (i == 4) {
-                dateList.get(0).setText("Il y a cinq jours");
-                dateList.get(1).setText("Il y a quatre jours");
-                dateList.get(2).setText("Il y a trois jours");
-                dateList.get(3).setText("Avant - hier");
-                dateList.get(4).setText("Hier");
-            }
-
-            if (i == 5) {
-                dateList.get(0).setText("Il y a six jours");
-                dateList.get(1).setText("Il y a cinq jours");
-                dateList.get(2).setText("Il y a quatre jours");
-                dateList.get(3).setText("Il y a trois jours");
-                dateList.get(4).setText("Avant - hier");
-                dateList.get(5).setText("Hier");
-            }
-
-            if (i == 6){
-                dateList.get(0).setText("Il y a une semaine");
-                dateList.get(1).setText("Il y a six jours");
-                dateList.get(2).setText("Il y a cinq jours");
-                dateList.get(3).setText("Il y a quatre jours");
-                dateList.get(4).setText("Il y a trois jours");
-                dateList.get(5).setText("Avant - hier");
-                dateList.get(6).setText("Hier");
-            }
-
-
         }
 
 
     }
+
+    /**
+     * Set the date in the rights layout depending on how many moods are saved
+     */
+
+    private void setDate() {
+
+            for (int i = 0; i < historicList.size(); i++) {
+                if (i == 0) {
+                    dateList.get(0).setText("Hier");
+                }
+                if (i == 1) {
+                    dateList.get(0).setText("Avant - hier");
+                    dateList.get(1).setText("Hier");
+                }
+
+                if (i == 2) {
+                    dateList.get(0).setText("Il y a trois jours");
+                    dateList.get(1).setText("Avant - hier");
+                    dateList.get(2).setText("Hier");
+
+                }
+
+                if (i == 3) {
+                    dateList.get(0).setText("Il y a quatre jours");
+                    dateList.get(1).setText("Il y a trois jours");
+                    dateList.get(2).setText("Avant - hier");
+                    dateList.get(3).setText("Hier");
+                }
+
+                if (i == 4) {
+                    dateList.get(0).setText("Il y a cinq jours");
+                    dateList.get(1).setText("Il y a quatre jours");
+                    dateList.get(2).setText("Il y a trois jours");
+                    dateList.get(3).setText("Avant - hier");
+                    dateList.get(4).setText("Hier");
+                }
+
+                if (i == 5) {
+                    dateList.get(0).setText("Il y a six jours");
+                    dateList.get(1).setText("Il y a cinq jours");
+                    dateList.get(2).setText("Il y a quatre jours");
+                    dateList.get(3).setText("Il y a trois jours");
+                    dateList.get(4).setText("Avant - hier");
+                    dateList.get(5).setText("Hier");
+                }
+
+                if (i == 6) {
+                    dateList.get(0).setText("Il y a une semaine");
+                    dateList.get(1).setText("Il y a six jours");
+                    dateList.get(2).setText("Il y a cinq jours");
+                    dateList.get(3).setText("Il y a quatre jours");
+                    dateList.get(4).setText("Il y a trois jours");
+                    dateList.get(5).setText("Avant - hier");
+                    dateList.get(6).setText("Hier");
+                }
+
+            }
+        }
+
 
     /**
      * Get width
@@ -286,14 +311,15 @@ public class HistoryActivity extends AppCompatActivity {
         for (int i = 0; i < historicList.size(); i++) {
             ImageView commentView = imageList.get(i);
 
-            comment = historicList.get(i).comment;
+            comment = historicList.get(i).getComment();
 
             if (!comment.isEmpty() ){
                 commentView.setVisibility(View.VISIBLE);
+                final int finalI = i;
                 commentView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast toast = Toast.makeText(getApplicationContext(), comment, Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getApplicationContext(), historicList.get(finalI).getComment(), Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });

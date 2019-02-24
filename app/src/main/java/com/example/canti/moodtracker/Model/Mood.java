@@ -39,6 +39,10 @@ public class Mood {
         return position;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
     public int getSound() {
         return sound;
     }
